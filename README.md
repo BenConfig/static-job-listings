@@ -38,7 +38,6 @@ const categoriesArray = [job.role, job.level, ...job.languages, ...job.tools];
 ...and then looping through each item of the array to create the HTML text which is stored in the `categoriesHTMLString` variable:
 
 ```js
-const categoriesArray = [job.role, job.level, ...job.languages, ...job.tools];
     let categoriesHTMLString = '';
     for (const category of categoriesArray) {
         const categoryHTMLString = `<button class="job__category" type="button">${category}</button>`;
