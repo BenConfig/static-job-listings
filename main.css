@@ -1,0 +1,414 @@
+/* ------------------------------------------------------ */
+/*                          Fonts                         */
+/* ------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;600;700&display=swap');
+
+/* ------------------------------------------------------ */
+/*                    Custom Properties                   */
+/* ------------------------------------------------------ */
+:root {
+    /* Font Weights */
+    --fw-light: 300;
+    --fw-normal: 600;
+    --fw-bold: 700;
+
+    /* Spacing */
+    --height-header: 9.75rem;
+    --px-main: clamp(1.5rem, -2rem + 11.2vw, 5rem);
+    --px-card: clamp(1.1875rem, -.125rem + 4.2vw, 2.5rem);
+    --max-width-card: 69.375rem;
+    --p-btn: .3125rem;
+
+    /* Border Radii */
+    --br-xs: .1875rem;
+    --br-sm: .3125rem;
+    --br-pill: 100vmax;
+
+    /* Shadows */
+    --shadow-card: 0 .25rem .25rem hsla(180, 29%, 50%, .025),
+                   0 .5rem .5rem hsla(180, 29%, 50%, .05),
+                   0 1rem 1rem hsla(180, 29%, 50%, .15);
+
+    /* Colors */
+    --clr-primary: hsl(180, 29%, 50%);
+    --clr-body-bg: hsl(180, 52%, 96%);
+    --clr-categories: hsl(180, 31%, 95%);
+
+    --clr-light: hsl(0, 0%, 100%);
+    --clr-gray: hsl(180, 8%, 52%);
+    --clr-dark: hsl(180, 14%, 20%);
+
+    /* Animation Durations */
+    --ad-short: 200ms;
+    --ad-long: 500ms;
+}
+
+/* ------------------------------------------------------ */
+/*                 Resets & Global Styles                 */
+/* ------------------------------------------------------ */
+.sr-only {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+:focus { outline: none; }
+
+* { box-sizing: border-box; }
+
+body,
+h2, p,
+button { margin: 0; }
+
+button {
+    font: inherit;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+a { text-decoration: none; }
+
+button,
+a { position: relative; }
+
+/* Extend clickable area of buttons and links for accessibility */
+button::before,
+a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: max(44px, 100%);
+    min-height: max(44px, 100%);
+    border-radius: inherit;
+}
+
+body {
+    font: var(--fw-normal) .8125rem/1 'Spartan', sans-serif;
+    background: var(--clr-body-bg);
+}
+
+/* ------------------------------------------------------ */
+/*              Header & Filtered Categories              */
+/* ------------------------------------------------------ */
+.header {
+    padding-top: calc(var(--height-header) - 2.25rem);
+    padding-inline: var(--px-main);
+    margin-bottom: 3.5rem;
+    perspective: 100rem;
+    background: url('images/bg-header-mobile.svg') repeat-x,
+                linear-gradient(var(--clr-primary) var(--height-header), var(--clr-body-bg) 0);
+}
+
+@media only screen and (min-width: 62.5em) {
+    .header {
+        margin-bottom: 2.5rem;
+        background-image: url('images/bg-header-desktop.svg'),
+                          linear-gradient(var(--clr-primary) var(--height-header), var(--clr-body-bg) 0);
+    }
+}
+
+.filtered-categories {
+    visibility: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.1875rem;
+    max-width: var(--max-width-card);
+    min-height: 4.5rem;
+    padding: 1.25rem var(--px-card);
+    box-shadow: var(--shadow-card);
+    border-radius: var(--br-sm);
+    background: var(--clr-light);
+    margin: auto;
+    transform-origin: top;
+    transform: rotateX(90deg);
+    transition: transform var(--ad-long),
+                visibility 0ms var(--ad-long);
+}
+
+/* When category is clicked, show 'Filtered Categories' panel */
+.filtered-categories.show {
+    visibility: visible;
+    transform: rotateX(0);
+    transition: transform var(--ad-long);
+}
+
+.filtered-categories__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* When category is clicked, add category to 'Filtered Categories' panel */
+.filtered-categories__category.hidden {
+    opacity: 0;
+    transition: opacity var(--ad-short);
+}
+
+.filtered-categories__category {
+    display: flex;
+    opacity: 1;
+    transition: opacity var(--ad-short);
+ }
+
+.filtered-categories__text {
+    display: block;
+    padding: .625rem .5625rem .5625rem .5rem;
+    border-radius: var(--br-xs) 0 0 var(--br-xs);
+    color: var(--clr-primary);
+    background: var(--clr-categories);
+}
+
+/* ------------------ 'X-Button' Styles ----------------- */
+.filtered-categories__x-btn {
+    position: relative;
+    width: 2rem;
+    border-radius: 0 var(--br-xs) var(--br-xs) 0;
+    background: var(--clr-primary)
+                url('images/icon-remove.svg') no-repeat center;
+}
+
+.filtered-categories__x-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--clr-dark)
+                url('images/icon-remove.svg') no-repeat center;
+    opacity: 0;
+    transition: opacity var(--ad-short);
+}
+
+/* 'X-Button' Hover/Focus Animation */
+.filtered-categories__x-btn:hover::after,
+.filtered-categories__x-btn:focus::after { opacity: 1 }
+
+/* ---------------- 'Clear Button' Styles --------------- */
+.filtered-categories__clear-btn {
+    margin-top: .0625rem;
+    transform: translateX(.3125rem);
+    color: var(--clr-gray);
+    transition: color var(--ad-short);
+}
+
+.filtered-categories__clear-btn::after {
+    content: '';
+    position: absolute;
+    left: var(--p-btn);
+    bottom: calc(50% - .4375rem);
+    width: calc(100% - 2 * var(--p-btn));
+    height: .0625rem;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform var(--ad-short);
+}
+
+/* 'Clear Button' Hover/Focus Animation */
+.filtered-categories__clear-btn:hover,
+.filtered-categories__clear-btn:focus { color: var(--clr-primary); }
+
+.filtered-categories__clear-btn:hover::after,
+.filtered-categories__clear-btn:focus::after {
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+/* ------------------------------------------------------ */
+/*                          Jobs                          */
+/* ------------------------------------------------------ */
+.jobs {
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--px-main);
+}
+
+@media only screen and (min-width: 62.5em) {
+    .jobs { padding-bottom: 6rem; }
+}
+
+.job {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, var(--max-width-card));
+    padding: 1.9375rem var(--px-card) 1.5rem;
+    border-radius: var(--br-sm);
+    box-shadow: var(--shadow-card);
+    margin: auto;
+    margin-bottom: 2.5rem;
+    background: var(--clr-light);
+    transition: opacity var(--ad-long);
+}
+
+@media only screen and (min-width: 62.5em) {
+    .job {
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 2.0625rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Hide job if it does not contain the filtered categories */
+.job.hide {
+    pointer-events: none; /* Disables category buttons as they fade out */
+    opacity: 0;
+}
+
+.job__logo {
+    position: absolute;
+    top: 0;
+    left: var(--px-card);
+    transform: translateY(-50%);
+    width: 3rem;
+}
+
+@media only screen and (min-width: 62.5em) {
+    .job__logo {
+        position: static;
+        width: 5.5rem;
+        margin-right: 1.5rem;
+        transform: translateY(.0625rem);
+    }
+}
+
+/* ------------------- Job Description ------------------ */
+.job__description {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+@media only screen and (min-width: 62.5em) {
+    .job__description { margin-right: 5rem; }
+}
+
+.job__title,
+.job__details {
+    order: 1;
+    white-space: nowrap;
+}
+
+.job__title {
+    flex: 100%;
+    font-size: clamp(.9375rem, .75rem + .6vw, 1.125rem);
+    margin-block: .78125rem .75rem;
+}
+
+.job__link {
+    color: var(--clr-dark);
+    transition: color var(--ad-short);
+}
+
+/* 'Job Link' Hover/Focus Animation */
+.job__link:focus,
+.job__link:hover { color: var(--clr-primary); }
+
+.job__company {
+    font-size: clamp(.8125rem, .75rem + .2vw, .875rem);
+    margin-right: 1.125rem;
+    margin-bottom: .0625rem;
+    color: var(--clr-primary);
+}
+
+.job__new-tag,
+.job__featured-tag {
+    font-size: .6875rem;
+    text-transform: uppercase;
+    padding: .5rem .5rem .3125rem;
+    border-radius: var(--br-pill);
+    color: var(--clr-light);
+}
+
+.job__new-tag {
+    display: none;
+    margin-right: .5rem;
+    background: var(--clr-primary);
+}
+
+/* If 'Job' is 'New' */
+.job.new .job__new-tag { display: block; }
+
+.job__featured-tag {
+    display: none;
+    background: var(--clr-dark);
+}
+
+/* If 'Job' is 'Featured' */
+.job.featured {
+    background: linear-gradient(90deg, var(--clr-primary) .3125rem, var(--clr-light) 0);
+}
+
+.job.featured .job__featured-tag { display: block; }
+
+.job__details {
+    display: flex;
+    align-items: center;
+    gap: clamp(.3125rem, -.1875rem + 1.625vw, .8125rem);
+    font-size: clamp(.8125rem, .6875rem + .4vw, .9375rem);
+    font-weight: var(--fw-light);
+    color: var(--clr-gray);
+}
+
+.job__bullet { font-size: 1.25rem; }
+
+/* ------------------- Job Categories ------------------- */
+.job__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.0625rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-gray);
+    margin-top: .9375rem;
+}
+
+@media only screen and (min-width: 62.5em) {
+    .job__categories {
+        justify-content: flex-end;
+        text-align: right;
+        padding-top: 0;
+        border-top: none;
+        margin-top: 0;
+        margin-left: auto;
+        transform: translateY(.0625rem);
+    }
+}
+
+.job__category {
+    z-index: 1;
+    padding: .625rem .5rem .5625rem;
+    border-radius: var(--br-xs);
+    color: var(--clr-primary);
+    background: var(--clr-categories);
+    transition: color var(--ad-short);
+}
+
+.job__category::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--clr-primary);
+    opacity: 0;
+    transition: opacity var(--ad-short);
+}
+
+/* 'Job Category' Hover/Focus Animation */
+.job__category:hover,
+.job__category:focus {
+    color: var(--clr-light);
+    animation: category-bulge var(--ad-short);
+}
+
+@keyframes category-bulge { 
+    0%{ transform: scale(1); }
+    20% { transform: scale(1.2); }
+}
+
+.job__category:hover::after,
+.job__category:focus::after { opacity: 1; }
