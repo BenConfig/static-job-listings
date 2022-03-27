@@ -31,7 +31,7 @@ const createJobElements = job => {
         <img class="job__logo" src=${job.logo} alt="" aria-hidden="true">
 
         <section class="job__description">
-            <h2 class="job__title"><a class="job__link" href="#">${job.position}</a></h2>
+            <h3 class="job__title"><a class="job__link" href="#">${job.position}</a></h2>
             <p class="job__company">${job.company}</p>
             <p class="job__new-tag">New!</p>
             <p class="job__featured-tag">Featured</p>
@@ -41,7 +41,7 @@ const createJobElements = job => {
         </section>
         
         <section class="job__categories">
-            <h3 class="sr-only">Job Categories</h3>
+            <h4 class="sr-only">Job Categories</h3>
             ${categoriesHTMLString}
         </section>
     `)
