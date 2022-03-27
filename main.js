@@ -32,7 +32,7 @@ const createJobElements = job => {
 
         <section class="job__description">
             <h2 class="job__title"><a class="job__link" href="#">${job.position}</a></h2>
-            <p class="job__company" aria-label="Company name">${job.company}</p>
+            <p class="job__company">${job.company}</p>
             <p class="job__new-tag">New!</p>
             <p class="job__featured-tag">Featured</p>
             <p class="job__details">
